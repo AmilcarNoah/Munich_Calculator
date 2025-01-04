@@ -1,0 +1,709 @@
+body {
+  background-color: #2d2d33;
+  color: #cbcbcc;
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Full viewport height */
+  overflow: hidden; /* Prevent scrolling */
+}
+
+/* Leaflet layer and control styles */
+.leaflet-layer,
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out,
+.leaflet-control-attribution {
+  filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
+}
+
+.leaflet-control-layers-toggle {
+  background-color: #2a2d3e !important;
+}
+
+.leaflet-control-layers-selector {
+  margin-top: 2px;
+  background-color: #2a2d3e;
+  position: relative;
+  top: 1px;
+}
+
+.large-font {
+  font-size: 24px; /* Larger font size for dynamic results */
+}
+
+/* Header styling */
+header {
+  position: relative;
+  top: 1px;
+  z-index: 1000;
+  background: linear-gradient(90deg, #2d2d33, #2d2d33);
+  color: #d6d1a0;
+  text-align: center;
+  height: 10%;
+  font-size: 28px;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-content {
+  text-align: center;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 32px;
+  font-weight: bold;
+  color: #d6d1a0;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #640D5F;
+}
+
+/* Main layout wrapper */
+.main-wrapper {
+  background-color: #2d2d33;
+  display: flex;
+  flex: 1;
+  margin-top: 1px;
+  height: 90%;
+}
+
+/* Map styling */
+#map {
+  flex: 2;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 2px solid #2d2d33;
+  position: relative;
+}
+
+/* Sidebar styling */
+#sidebar {
+  min-width: 280px;
+  max-width: 400px;
+  height: 100%;
+  background: #2d2d33;
+  padding: 20px;
+  border-left: 2px solid rgb(51, 52, 52);
+  border-radius: 0 15px 0 0;
+  box-shadow: -3px 0 15px rgba(0, 0, 0, 0.5);
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar styling */
+#sidebar::-webkit-scrollbar {
+  width: 10px; /* Increased width for better accessibility */
+}
+
+#sidebar::-webkit-scrollbar-track {
+  background: #2d2d33;
+  border-radius: 4px;
+}
+
+#sidebar::-webkit-scrollbar-thumb {
+  background: #2d2d33;
+  border-radius: 4px;
+  border: 1px solid #2d2d33;
+  transition: background-color 0.3s ease, border-color 0.3s ease; /* Smooth transition */
+}
+
+#sidebar::-webkit-scrollbar-thumb:hover {
+  background: #4a4f66; /* Hover color with smoother transition */
+  border-color: #33ffe7; /* Add a glowing effect on hover */
+}
+
+/* Smooth scrolling for Firefox */
+#sidebar {
+  min-width: 280px;
+  max-width: 400px;
+  height: 100%;
+  background: #2d2d33;
+  padding: 20px;
+  margin-bottom: 0; /* Removed bottom margin to avoid space conflicts */
+  border-left: 2px solid #2d2d33;
+  border-radius: 0 15px 0 0;
+  box-shadow: -3px 0 15px #2d2d33;
+  overflow-y: auto; /* Ensuring content scrolls smoothly without extra space */
+  scroll-behavior: smooth;
+  position: relative; /* Position to avoid layout shifts */
+  padding-bottom: 20px; /* Reduced bottom padding for balance */
+}
+
+/* Custom scrollbar styling */
+#sidebar::-webkit-scrollbar {
+  width: 10px; /* Ensures an accessible scrollbar width */
+}
+
+#sidebar::-webkit-scrollbar-track {
+  background: #2d2d33;
+  border-radius: 4px;
+}
+
+#sidebar::-webkit-scrollbar-thumb {
+  background: #2d2d33;
+  border-radius: 4px;
+  border: 1px solid #495057;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+#sidebar::-webkit-scrollbar-thumb:hover {
+  background: #2d2d33; /* Subtle hover effect */
+  border-color: #640D5F; /* Glowing effect for thumb hover */
+}
+
+/* Smooth scrolling for Firefox */
+#sidebar {
+  scrollbar-width: thin;
+  scrollbar-color: #2d2d33 #2d2d33;
+  scroll-behavior: smooth;
+}
+
+/* Smooth scroll animation for thumb */
+#sidebar::-webkit-scrollbar-thumb {
+  transition: background-color 0.3s ease-out, border 0.3s ease-out;
+}
+
+.sidebar-container {
+  padding: 20px;
+  background-color: #2d2d33;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px #2d2d33;
+  margin-bottom: 0; /* Avoid space conflicts with sidebar */
+}
+
+/* Sidebar heading */
+#sidebar h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #d6d1a0;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #640D5F;
+}
+
+/* Combined Visualization Section */
+.combined-visualization {
+  margin-bottom: 25px;
+  padding: 20px;
+  background: #2a2d3e;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease-in-out;
+}
+
+.combined-visualization:hover {
+  transform: scale(1.02);
+}
+
+.combined-visualization canvas {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Infographics Container */
+.infographic-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px;
+}
+
+.infographic-section {
+  text-align: center;
+  padding: 20px;
+  background: #2d2d33;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease;
+}
+
+.infographic-section:hover {
+  transform: translateY(-5px);
+}
+
+/* Infographic content */
+.infographic-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: #2d2d33;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.infographic-icon img {
+  width: 80%;
+  height: 80%;
+}
+
+.infographic-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #d6d1a0;
+  margin: 15px 0;
+}
+
+.infographic-value {
+  font-size: 28px;
+  font-weight: bold;
+  color: #cbcbcc;
+  margin-top: 10px;
+}
+
+/* Modal styling for enlarged chart */
+.chart-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.85);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  position: relative;
+  background-color: #2a2d3e;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+#enlarged-chart {
+  display: block;
+  max-width: 90%;
+  max-height: 90%;
+}
+
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background-color: transparent;
+  border: none;
+  color: #d6d1a0;
+  font-size: 24px;
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+}
+
+.close-modal:hover {
+  color: #33ffe7;
+}
+
+/* Legend styling */
+/* Compact Legend Styling */
+.info.legend {
+  padding: 4px; /* Reduced padding */
+  background: linear-gradient(135deg, #2d2d33, #2d2d33);
+  color: #d6d1a0;
+  border-radius: 6px; /* Smaller border radius */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Lighter shadow */
+  font-size: 10px; /* Smaller font size */
+  font-weight: bold;
+}
+.info.legend h4 {
+  margin-bottom: 4px; /* Reduced margin */
+  color: #ffd333;
+  font-size: 12px; /* Smaller font size */
+  text-align: center;
+  border-bottom: 1px solid #d6d1a0; /* Thinner border */
+  padding-bottom: 2px; /* Reduced padding */
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #2d2d33;
+  padding: 2px 4px; /* Reduced padding */
+  border-radius: 4px; /* Smaller border radius */
+  margin: 3px 0; /* Reduced margin */
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.legend-item:hover {
+  transform: translateY(-1px); /* Smaller hover effect */
+  background: #3b3f54;
+}
+
+.legend-item span {
+  display: inline-block;
+  width: 12px; /* Smaller width */
+  height: 12px; /* Smaller height */
+  border-radius: 2px; /* Smaller border radius */
+  border: 1px solid #495057;
+}
+
+/*Symbols */
+.transport-layer {
+  position: relative; /* Relative positioning for the layer */
+}
+
+
+.transport-symbol img {
+  width: 16px; /* Smaller width */
+  height: 16px; /* Smaller height */
+  vertical-align: middle;
+} 
+.transport-symbol {
+  margin: 4px; /* Add spacing between symbols */
+  display:flex; 
+}
+.transport-symbol.disabled {
+  opacity: 0.4; /* Reduce opacity for disabled symbols */
+  pointer-events: none; /* Disable interactions */
+}
+.transport-symbol:hover {
+  transform: scale(1.1); /* Slight scale-up on hover */
+  transition: transform 0.2s ease;
+}
+
+/* Reset button */
+#reset-button {
+  background-color: #50556c;
+  color: #1e1e2f;
+  border: none;
+  border-radius: 6px; /* Smaller border radius */
+  padding: 8px 12px; /* Reduced padding */
+  font-size: 12px; /* Smaller font size */
+  font-weight: bold;
+  margin-top: 10px; /* Reduced margin */
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+#reset-button:hover {
+  background-color: #d6d1a0;
+  transform: scale(1.03); /* Smaller scale effect */
+}
+
+/* Focus styles for accessibility */
+#reset-button:focus, .close-modal:focus {
+  outline: none;
+}
+
+/* Smooth transition for modal display */
+.chart-modal {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease, visibility 0s 0.3s;
+  visibility: hidden;
+}
+
+.chart-modal.show {
+  display: flex;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease;
+}
+
+/* Accordion */
+.sidebar-container-1 {
+  max-height: none; /* Allow full height to show content */
+  overflow: visible; /* Ensure content is visible */
+  transition: none; /* Remove transition for visibility */
+}
+
+.accordion {
+  background-color: #3b3f54;
+  color: #1e1e2f;
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 15px;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  text-align: left;
+  border: none;
+  outline: none;
+  transition: 0.4s;
+  border-radius: 6px;
+}
+
+.accordion:hover, .active {
+  background-color: #d6d1a0;
+  transform: translateY(-3px);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  transform: scale(1.05);
+  box-shadow: 0 0 3px 3px rgba(51, 255, 231, 0.8);
+}
+
+.accordion:after {
+  content: '\02795';
+  font-size: 13px;
+  color: #777;
+  float: right;
+  margin-left: 5px;
+}
+
+.active:after {
+  content: "\2796";
+}
+
+.panel {
+  padding: 0 18px;
+  background-color: #cbcbcc;
+  display: none;
+  overflow: hidden;
+}
+
+/* Custom scrollbar styles */
+body::-webkit-scrollbar {
+  width: 12px;
+}
+
+body::-webkit-scrollbar-track {
+  background: #2a2d3e;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #3b3f54;
+  border-radius: 10px;
+}
+
+/* Toggle legend button */
+#toggle-legend {
+  background-color: #50556c;
+  color: #1e1e2f;
+  border: none;
+  border-radius: 6px; /* Smaller border radius */
+  padding: 8px 12px; /* Reduced padding */
+  font-size: 12px; /* Smaller font size */
+  font-weight: bold;
+  margin-top: 10px; /* Reduced margin */
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+#toggle-legend:hover {
+  background-color: #d6d1a0;
+  transform: scale(1.03); /* Smaller scale effect */
+}
+
+/* Calculator styles */
+.calculator-container {
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+select {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  font-size: 16px;
+  border-radius: 8px;
+}
+
+label {
+  display: block;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #edce5f;
+  color: rgb(35, 33, 33);
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 15px;
+  border-radius: 8px;
+}
+
+button:hover {
+  background-color: #e0b526;
+}
+
+form {
+  padding: 20px;
+  border-radius: 15px;
+  max-width: 100%;
+  margin: auto;
+}
+
+form select {
+  background-color: #50556c;
+}
+
+h1, h2 {
+  text-align: center;
+}
+
+p#result {
+  font-size: 34px;
+  text-align: center;
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+.map.leaflet-container {
+  position: relative; /* Required for absolute positioning of child elements */
+  
+}
+
+/* Bottom Panel */
+.bottom-panel {
+  position: absolute; /* Position relative to map.leaflet-container */
+  top: 0; /* Align to the top of the map */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Adjust for precise horizontal centering */
+  width: 40%; /* Reduce width */
+  max-width: 500px; /* Reduce max-width */
+  background-color: #2d2d33;
+  padding: 8px; /* Reduce padding */
+  border-radius: 6px; /* Smaller border radius */
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.3);
+  z-index: 1001; /* Ensure it's above other elements */
+}
+
+/* Adjust Infographic Container Inside the Panel */
+.bottom-panel .infographic-container-bottom {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 8px; /* Reduce gap between items */
+}
+
+/* Adjust Infographic Sections Inside the Panel */
+.bottom-panel .infographic-section {
+  text-align: center;
+  color: #fff;
+  padding: 6px; /* Reduce padding */
+  background: #2d2d33;
+  border-radius: 4px; /* Smaller rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Lighter shadow */
+  transition: transform 0.3s ease;
+}
+
+.bottom-panel .infographic-section:hover {
+  transform: translateY(-3px); /* Smaller hover effect */
+}
+
+/* Adjust Infographic Icons Inside the Panel */
+.bottom-panel .infographic-icon img {
+  width: 20px; /* Smaller icon size */
+  height: 20px; /* Smaller icon size */
+}
+
+/* Adjust Infographic Titles Inside the Panel */
+.bottom-panel .infographic-title {
+  font-size: 10px; /* Smaller font size */
+  margin: 4px 0; /* Reduce margin */
+}
+
+/* Adjust Infographic Values Inside the Panel */
+.bottom-panel .infographic-value {
+  font-size: 14px; /* Smaller font size */
+  margin-top: 4px; /* Reduce margin */
+  margin-top: 4px; /* Reduce margin */
+}
+
+/* Transport Systems Panel */
+.transport-symbol {
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+
+.transport-symbol.disabled {
+  opacity: 0.4;
+}
+
+.transport-symbol img {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+}
+
+.transport-symbol span {
+  float: right;
+  margin-left: 5px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .main-wrapper {
+    flex-direction: column;
+  }
+
+  #sidebar {
+    width: 100%;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+
+  #map {
+    height: calc(100vh - 300px);
+  }
+
+  .bottom-panel {
+    width: 90%; /* Increase width for smaller screens */
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 768px) {
+  .info.legend {
+    padding: 3px; /* Further reduced padding */
+    font-size: 9px; /* Smaller font size */
+  }
+
+  .info.legend h4 {
+    font-size: 10px; /* Smaller font size */
+  }
+
+  .legend-item {
+    padding: 1px 3px; /* Further reduced padding */
+    margin: 2px 0; /* Further reduced margin */
+  }
+
+  .legend-item span {
+    width: 10px; /* Smaller width */
+    height: 10px; /* Smaller height */
+  }
+
+  #toggle-legend {
+    padding: 6px 10px; /* Further reduced padding */
+    font-size: 10px; /* Smaller font size */
+  }
+}
+
+@media (max-width: 768px) {
+  #reset-button {
+    padding: 6px 10px; /* Further reduced padding */
+    font-size: 10px; /* Smaller font size */
+    margin-top: 8px; /* Further reduced margin */
+  }
+}
+
+.large-font {
+  font-size: 24px; /* Larger font size for dynamic results */
+}

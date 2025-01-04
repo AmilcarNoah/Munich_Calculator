@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base Rent Calculator</title>
+    <style>
+        select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        form {
+            max-width: 600px;
+            margin: auto;
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        p#result {
+            font-size: 18px;
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script>
+        let dataset = [];
+
+        // Fetch and load the CSV file directly from the server
+        function loadCSV() {
+            fetch('df_calculator.csv')
+                .then(response => response.text())
+                .then(csvData => {
+                    dataset = Papa.parse(csvData, { header: true, skipEmptyLines: true }).data;
+                    populateDropdowns();
+                })
+                .catch(error => {
+                    console.error('Error loading CSV file:', error);
+                });
+        }
+
+        // Populate dropdowns with unique values from the dataset
+        function populateDropdowns() {
+            if (dataset.length === 0) return;
+
+            const uniqueValues = {
+                newlyConst: new Set(),
+                balcony: new Set(),
+                lift: new Set(),
+                garden: new Set(),
+                serviceCharge: new Set(),
+                livingSpace: new Set(),
+                noRooms: new Set(),
+                postal_code: new Set()
+            };
+
+            dataset.forEach(row => {
+                uniqueValues.newlyConst.add(row.newlyConst);
+                uniqueValues.balcony.add(row.balcony);
+                uniqueValues.lift.add(row.lift);
+                uniqueValues.garden.add(row.garden);
+                uniqueValues.serviceCharge.add(row.serviceCharge);
+                uniqueValues.livingSpace.add(row.livingSpace);
+                uniqueValues.noRooms.add(row.noRooms);
+                uniqueValues.postal_code.add(row.postal_code);
+            });
+
+            for (const [key, values] of Object.entries(uniqueValues)) {
+                const selectElement = document.getElementById(key);
+                Array.from(values).sort().forEach(value => {
+                    const option = document.createElement('option');
+                    option.value = value;
+                    option.textContent = value;
+                    selectElement.appendChild(option);
+                });
+            }
+        }
+
+        function calculateBaseRent(inputs) {
+            const { newlyConst, balcony, lift, garden, serviceCharge, livingSpace, noRooms, postal_code } = inputs;
+
+            const matchingRows = dataset.filter(row =>
+                row.newlyConst == newlyConst &&
+                row.balcony == balcony &&
+                row.lift == lift &&
+                row.garden == garden &&
+                row.serviceCharge == serviceCharge &&
+                row.livingSpace == livingSpace &&
+                row.noRooms == noRooms &&
+                row.postal_code == postal_code
+            );
+
+            if (matchingRows.length === 0) {
+                return "No matches found.";
+            }
+
+            const totalBaseRent = matchingRows.reduce((sum, row) => sum + parseFloat(row.baseRent), 0);
+            const averageBaseRent = totalBaseRent / matchingRows.length;
+
+            return `Average Base Rent: ${averageBaseRent.toFixed(2)}`;
+        }
+
+        function handleCalculate(event) {
+            event.preventDefault();
+
+            const inputs = {
+                newlyConst: document.getElementById('newlyConst').value,
+                balcony: document.getElementById('balcony').value,
+                lift: document.getElementById('lift').value,
+                garden: document.getElementById('garden').value,
+                serviceCharge: document.getElementById('serviceCharge').value,
+                livingSpace: document.getElementById('livingSpace').value,
+                noRooms: document.getElementById('noRooms').value,
+                postal_code: document.getElementById('postal_code').value
+            };
+
+            const result = calculateBaseRent(inputs);
+            document.getElementById('result').textContent = result;
+        }
+
+        window.onload = loadCSV;
+    </script>
+</head>
+<body>
+    <h1>Base Rent Calculator</h1>
+    <form id="calculator-form" onsubmit="handleCalculate(event)">
+        <label for="newlyConst">Newly Constructed:</label>
+        <select id="newlyConst" required></select>
+
+        <label for="balcony">Balcony:</label>
+        <select id="balcony" required></select>
+
+        <label for="lift">Lift:</label>
+        <select id="lift" required></select>
+
+        <label for="garden">Garden:</label>
+        <select id="garden" required></select>
+
+        <label for="serviceCharge">Service Charge:</label>
+        <select id="serviceCharge" required></select>
+
+        <label for="livingSpace">Living Space:</label>
+        <select id="livingSpace" required></select>
+
+        <label for="noRooms">Number of Rooms:</label>
+        <select id="noRooms" required></select>
+
+        <label for="postal_code">Postal Code:</label>
+        <select id="postal_code" required></select>
+
+        <button type="submit">Calculate Base Rent</button>
+    </form>
+
+    <h2>Result:</h2>
+    <p id="result">Enter values to calculate the base rent.</p>
+</body>
+</html>
