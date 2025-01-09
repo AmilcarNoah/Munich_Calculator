@@ -540,7 +540,7 @@ const createLegend = () => {
       button.innerText = 'Collapse';
     } else {
       legendContent.style.display = 'none';
-      legend.symbols.style.display = 'none';
+      legendSymbols.style.display = 'none';
       resetButton.style.display = 'none';
       percentageInfo.style.display = 'none';
       button.innerText = 'Expand';
