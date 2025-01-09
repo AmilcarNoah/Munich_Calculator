@@ -2,7 +2,7 @@
 const map = L.map('map', {
   center: [48.1552, 11.5650],
   zoom: 11.60,
-  minZoom: 7,
+  minZoom: 11,
   maxZoom: 18,
   zoomSnap: 0.05
 });
@@ -121,10 +121,29 @@ const loadDistrictData = (geojsonData) => {
 
       geojsonNames.push(feature.properties.name || `Unnamed ${geojsonNames.length + 1}`);
 
+      // Add a popup with district information
+      layer.bindPopup(`
+        <div class="district-popup">
+          <div class="district-popup-title">
+            <i class="fas fa-map-marker-alt"></i> ${feature.properties.name || 'Facilities in Postal Code Area'}
+          </div>
+          <ul class="district-popup-details">
+            <li><i class="fas fa-envelope"></i> 
+            <strong>Postal Code:</strong> ${feature.properties.plz || '0'}</li>
+            <li><i class="fas fa-coffee"></i> 
+            <strong>Cafes:</strong> ${feature.properties.cafe || '0'}</li>
+            <li><i class="fas fa-school"></i> 
+            <strong>Education Facilities:</strong> ${feature.properties.education || '0'}</li> 
+            <li><i class="fas fa-hospital"></i>
+            <strong>Healthcare:</strong> ${feature.properties.healthcare || '0'}</li> 
+            <li><i class="fas fa-store"></i> <strong>Stores:</strong> ${feature.properties.stores || '0'}</li>
+            <li><i class="fas fa-utensils"></i> 
+            <strong>Hospitality:</strong> ${feature.properties.hospitality || '0'}</li>
+            <li><i class="fas fa-tree"></i> 
+            <strong>Recreation:</strong> ${feature.properties.recreation || '0'}</li> </ul> </div> `);
+
       layer.on('click', () => {
         highlightShape(layer);
-        // displayInfographics(feature);
-        // updateBottomPanel(feature);
         updatePostalCodeInput(feature.properties.plz);
       });
 
@@ -132,9 +151,10 @@ const loadDistrictData = (geojsonData) => {
     }
   });
 
-  // updateCombinedChart(categoryValues.cafe, categoryValues.education);
   districtLayer.addTo(map);
 };
+
+
 
 // Load train network data
 const loadTrainNetworkLayer = (geojsonData) => {
@@ -159,17 +179,19 @@ const loadTrainNetworkLayer = (geojsonData) => {
 const loadBusStopsLayer = (geojsonData) => {
   busStopsLayer = L.geoJSON(geojsonData, {
     pointToLayer: (feature, latlng) => {
-      const iconUrl = getIconUrl(feature.properties.fclass);
-      const marker = L.marker(latlng, {
-        icon: L.icon({
-          iconUrl: iconUrl,
-          iconSize: [20, 20],
-          iconAnchor: [10, 20],
-          popupAnchor: [0, -20]
-        }),
-        feature: feature // Store feature data on marker
+      const color = feature.properties.fclass === 'bus_stop' ? 'blue' :
+                    feature.properties.fclass === 'tram_stop' ? 'green' :
+                    feature.properties.fclass === 'railway_station' ? 'red' : 'gray';
+
+      const marker = L.circleMarker(latlng, {
+        radius: 8,
+        fillColor: color,
+        color: color,
+        weight: 1,
+        opacity: 1,
+        fillOpacity: 0.8
       });
-      
+
       // Add popup with stop information
       marker.bindPopup(`<b>${feature.properties.name || 'Transport Stop'}</b><br>
                         Type: ${feature.properties.fclass.replace('_', ' ')}`);
@@ -194,10 +216,10 @@ const loadBusStopsLayer = (geojsonData) => {
 // Get icon URL based on stop type
 const getIconUrl = (stopType) => {
   switch (stopType) {
-    case 'bus_stop': return 'Symbols/bus_stop.png';
-    case 'tram_stop': return 'Symbols/tram_stop.png';
-    case 'railway_station': return 'Symbols/train_station.png';
-    // default: return 'Symbols/default_stop.png';
+    case 'bus_stop': return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="blue"/></svg>';
+    case 'tram_stop': return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="green"/></svg>';
+    case 'railway_station': return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="red"/></svg>';
+    default: return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="gray"/></svg>';
   }
 };
 // Global constants for stop types and zoom levels
@@ -480,18 +502,17 @@ const createLegend = () => {
         </div>
         <h5 id="transport-heading" style="display: none;">Transport Stops/Stations</h5>
         <div class="transport-symbol" data-stop-type="bus_stop" style="display: none;">
-          <img src="Symbols/bus_stop.png" alt="Bus Stop" style="width: 20px; height: 20px;">
-          <span style="float: right;">Bus Stops</span>
+          <span class="symbol-dot" style="background-color: blue;"></span>
+          <span class="symbol-label">Bus Stops</span>
         </div>
-        <div class="transport-symbol" data-stop-type="tram_stop" style="display: none;">
-          <img src="Symbols/tram_stop.png" alt="Tram Stop" style="width: 20px; height: 20px;">
-          <span style="float: right;">Tram Stops</span>
+        <div class="transport-symbol" data-stop-type="tram_stop" style="display: none;" style="float: right;">
+          <span class="symbol-dot" style="background-color: green;" style="float: right;"></span>
+          <span class="symbol-label">Tram Stops</span>
         </div>
-        <div class="transport-symbol" data-stop-type="train_station" style="display: none;">
-          <img src="Symbols/train_station.png" alt="Train Station" style="width: 20px; height: 20px;">
-          <span style="float: right;">Train Stations</span>
+        <div class="transport-symbol" data-stop-type="train_station" style="display: none;" style="float: right;">
+          <span class="symbol-dot" style="background-color: red;"></span>
+          <span class="symbol-label">Train Stations</span>
         </div>
-        
       </div>
       <button id="reset-button" style="display: none;">Reset</button>
       <button id="toggle-legend">Expand</button>
@@ -519,8 +540,8 @@ const createLegend = () => {
       button.innerText = 'Collapse';
     } else {
       legendContent.style.display = 'none';
-      legendSymbols.style.display = 'none';
- resetButton.style.display = 'none';
+      legend.symbols.style.display = 'none';
+      resetButton.style.display = 'none';
       percentageInfo.style.display = 'none';
       button.innerText = 'Expand';
     }

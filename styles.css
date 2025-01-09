@@ -644,10 +644,31 @@ p#result {
 }
 
 .transport-symbol span {
-  float: right;
+  float: left;
   margin-left: 5px;
 }
 
+.legend-symbols .transport-symbol {
+  display: flex;
+  align-items: center; /* Vertically center the dot and label */
+  margin-bottom: 10px; /* Add spacing between items */
+}
+
+.legend-symbols .symbol-dot {
+  width: 15px; /* Fixed width for the dot */
+  height: 15px; /* Fixed height for the dot */
+  border-radius: 50%; /* Make it a circle */
+  margin-right: 20px; /* Add spacing between the dot and label */
+  flex-shrink: 0; /* Prevent the dot from shrinking */
+}
+
+.legend-symbols .symbol-label {
+  font-size: 14px; /* Font size for the label */
+  font-weight: normal; /* Normal font weight */
+  color: #d6d1a0; /* Label text color */
+  flex-grow: 1; /* Allow the label to take up remaining space */
+  text-align: right; /* Align the label text to the right */
+}
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .main-wrapper {
@@ -669,6 +690,65 @@ p#result {
     max-width: 90%;
   }
 }
+
+/* Style for the popup container */
+.leaflet-popup-tip{
+  background-color: #50556c !important;
+}
+.leaflet-popup-content-wrapper{
+  background-color: #50556c !important;
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /*Subtle shadow */
+  padding: 2px; /* Padding inside the popup */
+  border: 1px solid #d3d3d3; /* Light border */
+}
+
+/* Style for the popup content */
+.leaflet-popup-content {
+  margin: 0; /* Remove default margin */
+  font-family: 'Avenir', sans-serif; /* Modern font */
+  font-size: 14px; /* Base font size */
+  color:#f9f6da; /* Dark text color */
+  line-height: 1.5; /* Improved readability */
+  background-color:#50556c;
+}
+
+/* Style for the popup title */
+.district-popup-title {
+  font-size: 18px;
+  font-weight: bold;
+  color:#e0b526; /* Dark blue for the title */
+  margin-bottom: 8px; /* Space below the title */
+}
+
+/* Style for the popup details */
+.district-popup-details {
+  margin: 0;
+  padding: 0;
+  list-style: none; /* Remove bullet points */
+}
+
+.district-popup-details li {
+  margin-bottom: 10px; /* Space between list items */
+}
+
+.district-popup-details strong {
+  color:#edce5f; /* Blue for emphasis */
+  font-weight: 600;
+}
+
+/* Style for the popup close button */
+.leaflet-popup-close-button {
+  color: #ef1212; /* Light gray for the close button */
+  font-size: 28px;
+  padding: 4px;
+  transition: color 0.2s ease;
+}
+
+.leaflet-popup-close-button:hover {
+  color: #e73c3c !important; /* Red on hover */
+}
+
 
 @media (max-width: 768px) {
   .info.legend {
