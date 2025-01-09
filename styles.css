@@ -64,6 +64,14 @@ h1 {
   border-bottom: 2px solid #640D5F;
 }
 
+h6 {
+  text-align: center;
+  margin-bottom: 35px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #d6d1a0;
+}
+
 /* Main layout wrapper */
 .main-wrapper {
   background-color: #2d2d33;
@@ -748,6 +756,7 @@ p#result {
 .leaflet-popup-close-button:hover {
   color: #e73c3c !important; /* Red on hover */
 }
+
 
 
 @media (max-width: 768px) {

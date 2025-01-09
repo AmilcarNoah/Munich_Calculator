@@ -131,7 +131,7 @@ const loadDistrictData = (geojsonData) => {
             <li><i class="fas fa-envelope"></i> 
             <strong>Postal Code:</strong> ${feature.properties.plz || '0'}</li>
             <li><i class="fas fa-coffee"></i> 
-            <strong>Cafes:</strong> ${feature.properties.cafe || '0'}</li>
+            <strong>Eateries/Food Services:</strong> ${feature.properties.cafe || '0'}</li>
             <li><i class="fas fa-school"></i> 
             <strong>Education Facilities:</strong> ${feature.properties.education || '0'}</li> 
             <li><i class="fas fa-hospital"></i>
@@ -476,12 +476,11 @@ document.getElementById('close-modal').addEventListener('click', () => {
 
 // Helper function for color scale
 const getColor = (value) => {
-  return value > 50 ? '#006d2c' :
-         value > 16 ? '#31a354' :
-         value > 7.1 ? '#74c476' :
-         value > 4.3 ? '#bae4b3' :
-         value > 2.5 ? '#edf8e9' :
-         value > 0   ? '#FED976' : '#FFEDA0';
+  return value <= 5.57 ? '#edf8e9' : // [0.25, 5.57]
+         value <= 10.75 ? '#bae4b3' : // (5.57, 10.75]
+         value <= 18.76 ? '#74c476' : // (10.75, 18.76]
+         value <= 31.17 ? '#31a354' : // (18.76, 31.17]
+         value <= 50 ? '#006d2c' : '#FFEDA0'; // (31.17, 49.31]
 };
 
 // Create interactive legend
@@ -540,7 +539,7 @@ const createLegend = () => {
       button.innerText = 'Collapse';
     } else {
       legendContent.style.display = 'none';
-      legend.symbols.style.display = 'none';
+      legendSymbols.style.display = 'none';
       resetButton.style.display = 'none';
       percentageInfo.style.display = 'none';
       button.innerText = 'Expand';
@@ -569,19 +568,27 @@ styleTrainLineInLegend();
 // Generate legend items
 const generateLegendContent = () => {
   const legendContent = document.getElementById('legend-content');
-  const grades = [0, 2.5, 4.3, 7.1, 16, 50];
   
-  grades.forEach((grade, i) => {
-    const nextGrade = grades[i + 1] || '+';
-    const color = getColor(grade);
+  // Updated intervals based on the provided ranges
+  const intervals = [
+    { min: 0.25, max: 5.57, label: '0.25–5.57' },
+    { min: 5.57, max: 10.75, label: '5.58–10.75' },
+    { min: 10.75, max: 18.76, label: '10.76–18.76' },
+    { min: 18.76, max: 31.17, label: '18.77–31.17' },
+    { min: 31.17, max: 49.31, label: '31.18–49.31' }
+  ];
+  
+  intervals.forEach(interval => {
+    const color = getColor(interval.max); // Get color for the upper bound of the range
     const item = document.createElement('div');
     
     item.className = 'legend-item';
-    item.innerHTML = `<span style="background:${color}; width: 20px; height: 20px; display: inline-block; border: 1px solid #000;"></span> ${grade}–${nextGrade}`;
+    item.innerHTML = `<span style="background:${color}; width: 20px; height: 20px; display: inline-block; border: 1px solid #000;"></span> ${interval.label}`;
     item.addEventListener('click', () => filterShapesByColor(color));
     legendContent.appendChild(item);
   });
 };
+
 
 // Filter shapes by color
 const filterShapesByColor = (color) => {
@@ -697,7 +704,7 @@ const toggleTrainSymbolVisibility = (isVisible) => {
 
 // Load all GeoJSON data
 const loadData = () => {
-  loadGeoJSON('Park/postal_codes_final.geojson', loadDistrictData);
+  loadGeoJSON('Park/final_with_counts.geojson', loadDistrictData);
   loadGeoJSON('Park/Train_network.geojson', loadTrainNetworkLayer);
   loadGeoJSON('Park/Transport.geojson', loadBusStopsLayer);
 };
