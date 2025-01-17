@@ -569,6 +569,7 @@ styleTrainLineInLegend();
 const generateLegendContent = () => {
   const legendContent = document.getElementById('legend-content');
   
+  
   // Updated intervals based on the provided ranges
   const intervals = [
     { min: 0.25, max: 5.57, label: '0.25–5.57' },
