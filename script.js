@@ -568,7 +568,7 @@ styleTrainLineInLegend();
 // Generate legend items
 const generateLegendContent = () => {
   const legendContent = document.getElementById('legend-content');
-  
+
   
   // Updated intervals based on the provided ranges
   const intervals = [
