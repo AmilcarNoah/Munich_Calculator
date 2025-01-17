@@ -568,6 +568,10 @@ styleTrainLineInLegend();
 // Generate legend items
 const generateLegendContent = () => {
   const legendContent = document.getElementById('legend-content');
+<<<<<<< HEAD
+=======
+  const grades = [2.5, 4.3, 7.1, 16, 50];
+>>>>>>> eeabdfcb5707f15833b58f3feea419df47d0d802
   
   // Updated intervals based on the provided ranges
   const intervals = [
