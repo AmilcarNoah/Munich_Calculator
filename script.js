@@ -131,7 +131,7 @@ const loadDistrictData = (geojsonData) => {
             <li><i class="fas fa-envelope"></i> 
             <strong>Postal Code:</strong> ${feature.properties.plz || '0'}</li>
             <li><i class="fas fa-coffee"></i> 
-            <strong>Cafes:</strong> ${feature.properties.cafe || '0'}</li>
+            <strong>Eateries/Food Services:</strong> ${feature.properties.cafe || '0'}</li>
             <li><i class="fas fa-school"></i> 
             <strong>Education Facilities:</strong> ${feature.properties.education || '0'}</li> 
             <li><i class="fas fa-hospital"></i>
@@ -569,7 +569,7 @@ styleTrainLineInLegend();
 // Generate legend items
 const generateLegendContent = () => {
   const legendContent = document.getElementById('legend-content');
-  const grades = [0, 2.5, 4.3, 7.1, 16, 50];
+  const grades = [2.5, 4.3, 7.1, 16, 50];
   
   grades.forEach((grade, i) => {
     const nextGrade = grades[i + 1] || '+';
@@ -697,7 +697,7 @@ const toggleTrainSymbolVisibility = (isVisible) => {
 
 // Load all GeoJSON data
 const loadData = () => {
-  loadGeoJSON('Park/postal_codes_final.geojson', loadDistrictData);
+  loadGeoJSON('Park/final_with_counts.geojson', loadDistrictData);
   loadGeoJSON('Park/Train_network.geojson', loadTrainNetworkLayer);
   loadGeoJSON('Park/Transport.geojson', loadBusStopsLayer);
 };
