@@ -180,7 +180,7 @@ const loadBusStopsLayer = (geojsonData) => {
   busStopsLayer = L.geoJSON(geojsonData, {
     pointToLayer: (feature, latlng) => {
       const color = feature.properties.fclass === 'bus_stop' ? 'blue' :
-                    feature.properties.fclass === 'tram_stop' ? 'green' :
+                    feature.properties.fclass === 'tram_stop' ? 'yellow' :
                     feature.properties.fclass === 'railway_station' ? 'red' : 'gray';
 
       const marker = L.circleMarker(latlng, {
@@ -217,7 +217,7 @@ const loadBusStopsLayer = (geojsonData) => {
 const getIconUrl = (stopType) => {
   switch (stopType) {
     case 'bus_stop': return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="blue"/></svg>';
-    case 'tram_stop': return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="green"/></svg>';
+    case 'tram_stop': return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="yellow"/></svg>';
     case 'railway_station': return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="red"/></svg>';
     default: return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="gray"/></svg>';
   }
@@ -505,7 +505,7 @@ const createLegend = () => {
           <span class="symbol-label">Bus Stops</span>
         </div>
         <div class="transport-symbol" data-stop-type="tram_stop" style="display: none;" style="float: right;">
-          <span class="symbol-dot" style="background-color: green;" style="float: right;"></span>
+          <span class="symbol-dot" style="background-color: yellow;" style="float: right;"></span>
           <span class="symbol-label">Tram Stops</span>
         </div>
         <div class="transport-symbol" data-stop-type="train_station" style="display: none;" style="float: right;">
