@@ -638,26 +638,27 @@ const resetLayers = () => {
   toggleTransportSymbolsVisibility(false);
   updateLegendVisibility(false, 'transport');
 };
-11.565
+// 11.565
+
+
 // Create the layer control
+let layerControl; // Declare this globally to track the instance
+
 const createLayerControl = () => {
+  // Check if layerControl is already initialized, if so, do not add a new one
+  if (layerControl) return;
+
   const overlayMaps = {
     "Train Network": trainLayer,
-    // "Transport Stops/Stations": busStopsLayer  // original layer
     "Transport Stops/Stations": markerCluster
   };
 
-  const layerControl = L.control.layers(null, overlayMaps).addTo(map);
+  // Create the new layer control
+  layerControl = L.control.layers(null, overlayMaps).addTo(map);
 
   map.on('overlayadd overlayremove', (event) => {
     const isVisible = event.type === 'overlayadd';
     if (event.name === "Transport Stops/Stations") {
-      if (isVisible) {
-        map.addLayer(markerCluster);
-        setBusStopsLayerVisibility(map.getZoom());
-      } else {
-        map.removeLayer(markerCluster);
-      }
       toggleTransportSymbolsVisibility(isVisible);
       updateLegendVisibility(isVisible, 'transport');
     }
@@ -667,6 +668,7 @@ const createLayerControl = () => {
     }
   });
 };
+
 
 // Update Legend with Active Layers
 const updateLegendVisibility = (isVisible, type) => {

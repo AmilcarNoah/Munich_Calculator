@@ -21,13 +21,26 @@ body {
 .leaflet-control-layers-toggle {
   background-color: #2a2d3e !important;
 }
-
+.leaflet-control-layers {
+  background-color: #2a2d3e !important; /* Dark background with transparency */
+  border-radius: 3px; /* Optional: Add rounded corners */
+  padding: 5px; /* Optional: Adjust padding */
+  
+}
+.leaflet-control-layers-list label {
+  border-radius: 4px;
+  padding: 8px;
+  margin: 6px 0;
+  color: #cbcbcc; /* Change the font color of the labels */
+  font-size: 12px; /* Change font size */
+}
 .leaflet-control-layers-selector {
   margin-top: 2px;
-  background-color: #2a2d3e;
+  background-color: #2a2d3e !important;
   position: relative;
   top: 1px;
 }
+
 
 .large-font {
   font-size: 24px; /* Larger font size for dynamic results */
@@ -404,7 +417,7 @@ h6 {
 }
 
 #reset-button:hover {
-  background-color: #d6d1a0;
+  background-color: #e0b526;
   transform: scale(1.03); /* Smaller scale effect */
 }
 
@@ -509,7 +522,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 #toggle-legend:hover {
-  background-color: #d6d1a0;
+  background-color: #e0b526;
   transform: scale(1.03); /* Smaller scale effect */
 }
 
@@ -750,10 +763,10 @@ p#result {
 
 /* Style for the popup close button */
 .leaflet-popup-close-button {
-  color: #ef1212; /* Light gray for the close button */
-  font-size: 28px;
+  color: #433838; /* Light gray for the close button */
+  font-size: 38px;
   padding: 4px;
-  transition: color 0.2s ease;
+  transition: color 0.3s ease;
 }
 
 .leaflet-popup-close-button:hover {
