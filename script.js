@@ -188,8 +188,8 @@ const loadBusStopsLayer = (geojsonData) => {
         fillColor: color,
         color: color,
         weight: 1,
-        opacity: 1,
-        fillOpacity: 0.8
+        opacity: 0.8,
+        fillOpacity: 1
       });
 
       // Add popup with stop information
