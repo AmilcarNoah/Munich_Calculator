@@ -399,7 +399,7 @@ const createLegend = () => {
     const div = L.DomUtil.create('div', 'info legend');
     div.innerHTML = `
       <h4>Legend</h4>
-      <h5 id="percentage-info" style="display: none;">Postal Code Area(Percentage of Area<br> covered by Parks (%))</h5>
+      <h5 id="percentage-info" style="display: none;">Postal Code Area(Average Rental Price<br> per Squared Meter (€))</h5>
       <div id="legend-content" style="display: none;"></div>
       <div class="legend-symbols" style="display: none;">
         <h5 id="train-heading" style="display: none;">Train Network</h5>
