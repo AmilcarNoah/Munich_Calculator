@@ -109,7 +109,7 @@ const loadDistrictData = (geojsonData) => {
 
   districtLayer = L.geoJSON(geojsonData, {
     style: feature => ({
-      fillColor: getColor(feature.properties.Intersect_),
+      fillColor: getColor(feature.properties.price_area),
       weight: 2,
       color: 'white',
       fillOpacity: 0.7
@@ -180,7 +180,7 @@ const loadBusStopsLayer = (geojsonData) => {
   busStopsLayer = L.geoJSON(geojsonData, {
     pointToLayer: (feature, latlng) => {
       const color = feature.properties.fclass === 'bus_stop' ? 'blue' :
-                    feature.properties.fclass === 'tram_stop' ? 'yellow' :
+                    feature.properties.fclass === 'tram_stop' ? 'green' :
                     feature.properties.fclass === 'railway_station' ? 'red' : 'gray';
 
       const marker = L.circleMarker(latlng, {
@@ -217,7 +217,7 @@ const loadBusStopsLayer = (geojsonData) => {
 const getIconUrl = (stopType) => {
   switch (stopType) {
     case 'bus_stop': return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="blue"/></svg>';
-    case 'tram_stop': return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="yellow"/></svg>';
+    case 'tram_stop': return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="green"/></svg>';
     case 'railway_station': return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="red"/></svg>';
     default: return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="gray"/></svg>';
   }
@@ -367,121 +367,29 @@ const initializeAccordion = () => {
   }
 };
 
-// Update the bottom panel
-// const updateBottomPanel = (feature) => {
-//   const healthcareCount = feature.properties.healthcare_count || 0;
-//   const storesCount = feature.properties.stores_count || 0;
-//   const hospitalityCount = feature.properties.hospitality_count || 0;
-//   const recreationCount = feature.properties.recreation_count || 0;
 
-//   document.getElementById('healthcare-info').textContent = healthcareCount;
-//   document.getElementById('stores-info').textContent = storesCount;
-//   document.getElementById('hospitality-info').textContent = hospitalityCount;
-//   document.getElementById('recreation-info').textContent = recreationCount;
-// };
-
-// Update the combined chart
-// const updateCombinedChart = (cafeValues, educationValues) => {
-//   const ctx = document.getElementById('combined-chart').getContext('2d');
-//   if (window.combinedChart) window.combinedChart.destroy();
-
-//   window.combinedChart = new Chart(ctx, {
-//     type: 'bar',
-//     data: {
-//       labels: geojsonNames.map(name => name.length > 15 ? name.substring(0, 15) + '...' : name),
-//       datasets: [
-//         {
-//           label: 'Eateries',
-//           data: cafeValues,
-//           backgroundColor: 'rgba(54, 162, 235, 0.7)',
-//           borderColor: 'rgba(54, 162, 235, 1)',
-//           borderWidth: 1
-//         },
-//         {
-//           label: 'Education Facilities',
-//           data: educationValues,
-//           type: 'line',
-//           borderColor: 'rgba(255, 99, 132, 1)',
-//           backgroundColor: 'rgba(255, 99, 132, 0.2)',
-//           fill: true,
-//           tension: 0.4
-//         }
-//       ]
-//     },
-//     options: {
-//       responsive: true,
-//       plugins: {
-//         legend: { display: true, position: 'top', labels: { color: '#f8f9fa' } }
-//       },
-//       scales: {
-//         x: {
-//           ticks: {
-//             color: '#f8f9fa',
-//             maxRotation: 45,
-//             minRotation: 30,
-//             autoSkip: true,
-//             callback: (value) => value
-//           }
-//         },
-//         y: {
-//           beginAtZero: true,
-//           ticks: { color: '#f8f9fa'}
-//         }
-//       }
-//     }
-//   });
-
-//   document.querySelector('.combined-visualization').addEventListener('click', () => showEnlargedChart(cafeValues, educationValues));
-// };
-
-// Show enlarged chart in modal
-// const showEnlargedChart = (cafeValues, educationValues) => {
-//   const chartModal = document.getElementById('chart-modal');
-//   chartModal.style.display = 'flex';
-
-//   const enlargedCtx = document.getElementById('enlarged-chart').getContext('2d');
-//   if (window.enlargedChart) window.enlargedChart.destroy();
-
-//   window.enlargedChart = new Chart(enlargedCtx, {
-//     type: 'bar',
-//     data: {
-//       labels: geojsonNames.map(name => name.length > 15 ? name.substring(0, 15) + '...' : name),
-//       datasets: [
-//         {
-//           label: 'Eateries',
-//           data: cafeValues,
-//           backgroundColor: 'rgba(54, 162, 235, 0.7)',
-//           borderColor: 'rgba(54, 162, 235, 1)',
-//           borderWidth: 1
-//         },
-//         {
-//           label: 'Education Facilities',
-//           data: educationValues,
-//           type: 'line',
-//           borderColor: 'rgba(255, 99, 132, 1)',
-//           backgroundColor: 'rgba(255, 99, 132, 0.2)',
-//           fill: true,
-//           tension: 0.4
-//         }
-//       ]
-//     },
-//     options: { responsive: true, plugins: { legend: { display: true, position: 'top' } } }
-//   });
-// };
 
 // Close the chart modal
 document.getElementById('close-modal').addEventListener('click', () => {
   document.getElementById('chart-modal').style.display = 'none';
 });
 
+
 // Helper function for color scale
 const getColor = (value) => {
-  return value <= 5.57 ? '#edf8e9' : // [0.25, 5.57]
-         value <= 10.75 ? '#bae4b3' : // (5.57, 10.75]
-         value <= 18.76 ? '#74c476' : // (10.75, 18.76]
-         value <= 31.17 ? '#31a354' : // (18.76, 31.17]
-         value <= 50 ? '#006d2c' : '#FFEDA0'; // (31.17, 49.31]
+  
+
+  if (value === 'NaN') return '#808080'; // Return gray if the value is not a valid number
+  if (value < 10.98) return '#FFFFFF'; // Default color for values below range
+  if (value <= 18.14) return '#FFEDA0'; // [10.98, 18.14]
+  if (value <= 20.87) return '#FEB24C'; // (18.15, 20.87]
+  if (value <= 24.44) return '#FD8D3C'; // (20.88, 24.44]
+  if (value <= 28.30) return '#E31A1C'; // (24.45, 28.30]
+
+  return '#808080'; // Fallback color for unexpected values
 };
+
+
 
 // Create interactive legend
 const createLegend = () => {
@@ -505,7 +413,7 @@ const createLegend = () => {
           <span class="symbol-label">Bus Stops</span>
         </div>
         <div class="transport-symbol" data-stop-type="tram_stop" style="display: none;" style="float: right;">
-          <span class="symbol-dot" style="background-color: yellow;" style="float: right;"></span>
+          <span class="symbol-dot" style="background-color: green;" style="float: right;"></span>
           <span class="symbol-label">Tram Stops</span>
         </div>
         <div class="transport-symbol" data-stop-type="train_station" style="display: none;" style="float: right;">
@@ -565,43 +473,57 @@ const styleTrainLineInLegend = () => {
 // Call the style function
 styleTrainLineInLegend();
 
-// Generate legend items
+
+// Function to generate legend content
 const generateLegendContent = () => {
   const legendContent = document.getElementById('legend-content');
+  legendContent.innerHTML = ''; // Clear previous content to avoid duplicates
 
-  
-  // Updated intervals based on the provided ranges
+  // Define intervals and colors matching the legend
   const intervals = [
-    { min: 0.25, max: 5.57, label: '0.25–5.57' },
-    { min: 5.57, max: 10.75, label: '5.58–10.75' },
-    { min: 10.75, max: 18.76, label: '10.76–18.76' },
-    { min: 18.76, max: 31.17, label: '18.77–31.17' },
-    { min: 31.17, max: 49.31, label: '31.18–49.31' }
-  ];
-  
-  intervals.forEach(interval => {
-    const color = getColor(interval.max); // Get color for the upper bound of the range
-    const item = document.createElement('div');
+    { min: 10.98, max: 18.14, label: '10.98–18.14', color: '#FFEDA0' },
+    { min: 18.15, max: 20.87, label: '18.15–20.87', color: '#FEB24C' },
+    { min: 20.88, max: 24.44, label: '20.88–24.44', color: '#FD8D3C' },
+    { min: 24.45, max: 28.30, label: '24.45–28.30', color: '#E31A1C' },
     
+  ];
+
+  // Loop through intervals to create legend items
+  intervals.forEach(interval => {
+    const item = document.createElement('div');
     item.className = 'legend-item';
-    item.innerHTML = `<span style="background:${color}; width: 20px; height: 20px; display: inline-block; border: 1px solid #000;"></span> ${interval.label}`;
-    item.addEventListener('click', () => filterShapesByColor(color));
+
+    item.innerHTML = `
+      <span style="background:${interval.color}; width: 20px; height: 20px; display: inline-block; border: 1px solid #000;"></span> 
+      ${interval.label}
+    `;
+
+    item.addEventListener('click', () => filterShapesByColor(interval.color));
     legendContent.appendChild(item);
   });
 };
 
-
-// Filter shapes by color
+// Function to filter shapes on the map by color
 const filterShapesByColor = (color) => {
   allLayers.forEach(layer => {
-    const featureColor = getColor(layer.feature.properties.Intersect_);
+    const priceArea = layer.feature.properties.price_area;
+    
+    if (priceArea === undefined || priceArea === null) {
+      console.log("Invalid Price_Area value, skipping layer.");
+      return;
+    }
+
+    const featureColor = getColor(priceArea); // Get color based on the Price_Area value
+    console.log(`Feature Price_Area: ${priceArea}, Computed Color: ${featureColor}`);
+
     if (featureColor === color) {
-      map.addLayer(layer);
+      map.addLayer(layer); // Add the layer if it matches the selected color
     } else {
-      map.removeLayer(layer);
+      map.removeLayer(layer); // Remove the layer if it doesn't match
     }
   });
 };
+
 
 // Reset all layers to their original state, ensuring district layer stays at the bottom
 const resetLayers = () => {
@@ -707,7 +629,7 @@ const toggleTrainSymbolVisibility = (isVisible) => {
 
 // Load all GeoJSON data
 const loadData = () => {
-  loadGeoJSON('Park/final_with_counts.geojson', loadDistrictData);
+  loadGeoJSON('Park/munich_layer.geojson', loadDistrictData);
   loadGeoJSON('Park/Train_network.geojson', loadTrainNetworkLayer);
   loadGeoJSON('Park/Transport.geojson', loadBusStopsLayer);
 };
