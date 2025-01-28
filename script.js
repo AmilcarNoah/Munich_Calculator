@@ -160,8 +160,8 @@ const loadDistrictData = (geojsonData) => {
 const loadTrainNetworkLayer = (geojsonData) => {
   trainLayer = L.geoJSON(geojsonData, {
     style: () => ({
-      color: '#2678fc',
-      weight: 3,
+      color:'#264dfc',
+      weight: 2,
       opacity: 0.75,
       lineJoin: 'round'
     })
@@ -179,8 +179,8 @@ const loadTrainNetworkLayer = (geojsonData) => {
 const loadBusStopsLayer = (geojsonData) => {
   busStopsLayer = L.geoJSON(geojsonData, {
     pointToLayer: (feature, latlng) => {
-      const color = feature.properties.fclass === 'bus_stop' ? 'blue' :
-                    feature.properties.fclass === 'tram_stop' ? 'green' :
+      const color = feature.properties.fclass === 'bus_stop' ?  '#2d5fea' :
+                    feature.properties.fclass === 'tram_stop' ? '#00F539' :
                     feature.properties.fclass === 'railway_station' ? 'red' : 'gray';
 
       const marker = L.circleMarker(latlng, {
@@ -217,7 +217,7 @@ const loadBusStopsLayer = (geojsonData) => {
 const getIconUrl = (stopType) => {
   switch (stopType) {
     case 'bus_stop': return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="blue"/></svg>';
-    case 'tram_stop': return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="green"/></svg>';
+    case 'tram_stop': return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="#00F539"/></svg>';
     case 'railway_station': return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="red"/></svg>';
     default: return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" fill="gray"/></svg>';
   }
@@ -409,11 +409,11 @@ const createLegend = () => {
         </div>
         <h5 id="transport-heading" style="display: none;">Transport Stops/Stations</h5>
         <div class="transport-symbol" data-stop-type="bus_stop" style="display: none;">
-          <span class="symbol-dot" style="background-color: blue;"></span>
+          <span class="symbol-dot" style="background-color: #2d5fea;"></span>
           <span class="symbol-label">Bus Stops</span>
         </div>
         <div class="transport-symbol" data-stop-type="tram_stop" style="display: none;" style="float: right;">
-          <span class="symbol-dot" style="background-color: green;" style="float: right;"></span>
+          <span class="symbol-dot" style="background-color: #00F539;" style="float: right;"></span>
           <span class="symbol-label">Tram Stops</span>
         </div>
         <div class="transport-symbol" data-stop-type="train_station" style="display: none;" style="float: right;">
@@ -463,7 +463,7 @@ const styleTrainLineInLegend = () => {
       width: 40px;
       height: 5px;
       display: inline-block;
-      background-color:#2678fc;
+      background-color:#264dfc;
       margin-right: 10px;
     }
   `;
