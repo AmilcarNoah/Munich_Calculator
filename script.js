@@ -160,8 +160,8 @@ const loadDistrictData = (geojsonData) => {
 const loadTrainNetworkLayer = (geojsonData) => {
   trainLayer = L.geoJSON(geojsonData, {
     style: () => ({
-      color: '#fc2680',
-      weight: 2,
+      color: '#2678fc',
+      weight: 3,
       opacity: 0.75,
       lineJoin: 'round'
     })
@@ -463,7 +463,7 @@ const styleTrainLineInLegend = () => {
       width: 40px;
       height: 5px;
       display: inline-block;
-      background-color: #fc2680;
+      background-color:#2678fc;
       margin-right: 10px;
     }
   `;
