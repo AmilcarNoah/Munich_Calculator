@@ -186,10 +186,12 @@ const loadBusStopsLayer = (geojsonData) => {
       const marker = L.circleMarker(latlng, {
         radius: 8,
         fillColor: color,
-        color: color,
-        weight: 1,
-        opacity: 0.8,
+        color: 'white',
+        weight: 2,
+        opacity: 0.9,
         fillOpacity: 1
+        
+
       });
 
       // Add popup with stop information
